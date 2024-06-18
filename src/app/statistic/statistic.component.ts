@@ -42,15 +42,18 @@ export class StatisticComponent implements OnInit{
 
 numberOfClients : number =0;
 numberOfProspects : number = 0;
+numberOfQualifiedProspects: number = 0;
+numberOfNonQualifiedProspects: number = 0;
+
 chart = {
-  title: 'Client vs Prospect Percentage',
+  title: 'Prospects Qualifiés et Non Qualifiés',
   type: ChartType.PieChart as ChartType,
   columnNames: ['Type', 'Percentage'],
   data: [] as any[], // Initialiser comme un tableau vide
   options: {
     pieHole: 0.4, // Optionnel : pour un Donut Chart
     is3D: true,   // Optionnel : pour un effet 3D
-    title: 'Percentage of Clients and Prospects',
+    title: 'Pourcentage de prospects qualifiés et non qualifiés',
     slices: {
       0: { color: '#2BB673' }, // Couleur personnalisée pour les clients
       1: { color: '#d91e48' }  // Couleur personnalisée pour les prospects
@@ -97,13 +100,13 @@ ngOnInit(): void {
 
 calculatePercentages(): void {
   console.log(this.numberOfClients)
-  const total = this.numberOfClients + this.numberOfProspects;
-  const clientPercentage = (this.numberOfClients / total) * 100;
-  const prospectPercentage = (this.numberOfProspects / total) * 100;
+  const totalProspects = this.numberOfQualifiedProspects + this.numberOfNonQualifiedProspects;
+  const qualifiedPercentage = (this.numberOfQualifiedProspects / totalProspects) * 100;
+  const nonQualifiedPercentage = (this.numberOfNonQualifiedProspects / totalProspects) * 100;
 
   this.chart.data = [
-    ['Client', clientPercentage],
-    ['Prospect', prospectPercentage]
+    ['Prospect Qualifié', qualifiedPercentage],
+    ['Prospect Non Qualifié', nonQualifiedPercentage]
   ];
 }
 prepareChartData(): void {
@@ -128,10 +131,14 @@ prepareChartData(): void {
     count
   ]);
 }
+contacts: any[] = [];
+
 loadClients() {
   this.clientService.getAllClients().subscribe({
     next: (res) => {
-     this.numberOfClients=res.length
+      this.contacts = res;
+        this.numberOfClients = this.contacts.filter(contact => contact.typeContact === 'Client').length;
+        console.log(this.numberOfClients);
     },
   });
 }
@@ -150,6 +157,13 @@ loadProspect() {
       this.numberOfProspects=res.length
       console.log(this.numberOfProspects)
       this.calculatePercentages()
+    },
+  });
+  this.prospectService.getAllProspects().subscribe({
+    next: (res) => {
+      this.numberOfQualifiedProspects = res.filter(prospect => prospect.statusProspect === 'Qualifié').length;
+      this.numberOfNonQualifiedProspects = res.filter(prospect => prospect.statusProspect === 'NonQualifie').length;
+      this.calculatePercentages();
     },
   });
 }

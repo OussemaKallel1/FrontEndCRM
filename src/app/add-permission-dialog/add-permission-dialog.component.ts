@@ -2,8 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PermissionService } from '../Services/Permission.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CoreService } from '../core/core.service';
-import { NgToastService } from 'ng-angular-popup';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-permission-dialog',
@@ -18,8 +17,7 @@ export class AddPermissionDialogComponent {
     private permissionService: PermissionService,
     private dialogRef: MatDialogRef<AddPermissionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private coreService: CoreService,
-    private toast: NgToastService
+    private toastr: ToastrService,
   ) {
     this.PermissionForm = this.fb.group({
       name: ['', [Validators.required]], // Seuls les caractères alphabétiques sont autorisés
@@ -31,11 +29,8 @@ export class AddPermissionDialogComponent {
     console.log(this.data)
 
     // Surveillance des changements de valeur dans le champ de nom
-    this.applyFirstLetterUppercaseValidation('nom');
-    // Surveillance des changements de valeur dans le champ de prénom
-    this.applyFirstLetterUppercaseValidation('prenom');
-    // Surveillance des changements de valeur dans le champ d'adresse
-    this.applyFirstLetterUppercaseValidation('adresse');
+    
+    
   }
 
   // Fonction pour appliquer la validation de la première lettre en majuscule
@@ -58,12 +53,7 @@ export class AddPermissionDialogComponent {
           .updatePermission(this.data.id, this.PermissionForm.value)
           .subscribe({
             next: (val: any) => {
-              this.toast.info({
-                detail: 'Information',
-                summary: 'Permission modifié',
-                sticky: false,
-                duration : 5000,
-              });
+              this.toastr.info('La permissions a été modifié', 'Information');
               this.dialogRef.close(true);
             },
 
@@ -74,18 +64,14 @@ export class AddPermissionDialogComponent {
       } else {
         this.permissionService.ajouterPermission(this.PermissionForm.value).subscribe({
           next: (val: any) => {
-            this.toast.success({ detail: 'Succés', summary: 'Client permission', duration:5000 });
+            this.toastr.success('Nouvelle permission ajoutée avec succès', 'Succès');
             this.dialogRef.close(true);
           },
         });
       }
     } else {
       // Affichage d'un message d'erreur si le formulaire n'est pas valide
-      this.toast.error({
-        detail: 'Erreur',
-        summary: "Le formulaire n'est pas valide.",
-        duration: 5000
-      });
+      this.toastr.error('Remplir le champ', 'Erreur');
     }
   }
 }

@@ -4,28 +4,23 @@
     <h1 style="text-align: center;"><b>Remplir les champs</b></h1>
   </div>
   
-  <form [formGroup]="ClientForm" (ngSubmit)="onFormSubmit()">
+  <form [formGroup]="ActiviteForm" (ngSubmit)="onFormSubmit()">
     <div mat-dialog-content class="content">
       <div class="column">
         <mat-form-field appearance="outline">
-          <mat-label>Nom de Tache</mat-label>
-          <input matInput type="text" placeholder="Nom de Tache*" formControlName="name">
+          <mat-label>Nom d'activité</mat-label>
+          <input matInput type="text"  formControlName="name">
           <mat-error
-            *ngIf="ClientForm.get('name')?.invalid && (ClientForm.get('name')?.dirty || ClientForm.get('name')?.touched)">
-            <span *ngIf="ClientForm.get('name')?.errors?.['required']">Le nom est requis.</span>
-            <span *ngIf="ClientForm.get('name')?.errors?.['pattern']">Le nom ne doit contenir que des lettres.</span>
-            <span *ngIf="ClientForm.get('name')?.hasError('minlength')">Le nom doit contenir au moins 3 caractères.</span>
+            *ngIf="ActiviteForm.get('name')?.invalid && (ActiviteForm.get('name')?.dirty || ActiviteForm.get('name')?.touched)">
+            <span *ngIf="ActiviteForm.get('name')?.errors?.['required']">Le nom est requis.</span>
+            <span *ngIf="ActiviteForm.get('name')?.hasError('minlength')">Le nom doit contenir au moins 3 caractères.</span>
           </mat-error>
         </mat-form-field>
   
         <mat-form-field appearance="outline" class="nom-field ">
           <mat-label>Description</mat-label>
-          <input matInput type="text" placeholder="Ex. Smith" formControlName="description">
-          <mat-error
-            *ngIf="ClientForm.get('description')?.invalid && (ClientForm.get('description')?.dirty || ClientForm.get('description')?.touched)">
-            <span *ngIf="ClientForm.get('description')?.errors?.['required']">Le prénom est requis.</span>
-            <span *ngIf="ClientForm.get('description')?.errors?.['pattern']">Le prénom ne doit contenir que des lettres.</span>
-          </mat-error>
+          <input matInput type="text" formControlName="description">
+         
         </mat-form-field>
       </div>
       <br>
@@ -35,31 +30,32 @@
           <mat-label>Date Début</mat-label>
           <input matInput type="date" id="dateDebut"  formControlName="dateDebut">
           <mat-error
-            *ngIf="ClientForm.get('dateDebut')?.invalid && (ClientForm.get('dateDebut')?.dirty || ClientForm.get('dateDebut')?.touched)">
-            <span *ngIf="ClientForm.get('dateDebut')?.errors?.['required']">La date de début est requis.</span>
+            *ngIf="ActiviteForm.get('dateDebut')?.invalid && (ActiviteForm.get('dateDebut')?.dirty || ActiviteForm.get('dateDebut')?.touched)">
+            <span *ngIf="ActiviteForm.get('dateDebut')?.errors?.['required']">La date de début est requis.</span>
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="nom-field">
           <mat-label>Date Fin</mat-label>
           <input matInput type="date"  formControlName="dateFin">
           <mat-error
-            *ngIf="ClientForm.get('dateFin')?.invalid && (ClientForm.get('dateFin')?.dirty || ClientForm.get('dateFin')?.touched)">
-            <span *ngIf="ClientForm.get('dateFin')?.errors?.['required']">La date de fin est requise.</span>
+            *ngIf="ActiviteForm.get('dateFin')?.invalid && (ActiviteForm.get('dateFin')?.dirty || ActiviteForm.get('dateFin')?.touched)">
+            <span *ngIf="ActiviteForm.get('dateFin')?.errors?.['required']">La date de fin est requis.</span>
           </mat-error>
         </mat-form-field>
         </div>
+        <br>
   
         <div class="column">
         
             <mat-form-field>
-              <mat-select placeholder="Status de Tache" formControlName="statusTask">
+              <mat-select placeholder="Statut d'activité" formControlName="statusTask">
                 <mat-option *ngFor="let type of statusTask" [value]="type.value">
                   {{ type.viewValue }}
                 </mat-option>
               </mat-select>
               <mat-error
-              *ngIf="ClientForm.get('statusTask')?.invalid && (ClientForm.get('statusTask')?.dirty || ClientForm.get('statusTask')?.touched)">
-              <span *ngIf="ClientForm.get('statusTask')?.errors?.['required']">Type de contact est requis.</span>
+              *ngIf="ActiviteForm.get('statusTask')?.invalid && (ActiviteForm.get('statusTask')?.dirty || ActiviteForm.get('statusTask')?.touched)">
+              <span *ngIf="ActiviteForm.get('statusTask')?.errors?.['required']">Type de contact est requis.</span>
             </mat-error>
             </mat-form-field>
          
@@ -71,8 +67,8 @@
                 </mat-option>
               </mat-select>
               <mat-error
-              *ngIf="ClientForm.get('typeActivity')?.invalid && (ClientForm.get('typeActivity')?.dirty || ClientForm.get('typeActivity')?.touched)">
-              <span *ngIf="ClientForm.get('typeActivity')?.errors?.['required']">Type de contact est requis.</span>
+              *ngIf="ActiviteForm.get('typeActivity')?.invalid && (ActiviteForm.get('typeActivity')?.dirty || ActiviteForm.get('typeActivity')?.touched)">
+              <span *ngIf="ActiviteForm.get('typeActivity')?.errors?.['required']">Type de contact est requis.</span>
             </mat-error>
             </mat-form-field>
         </div>
@@ -84,7 +80,7 @@
     <div mat-dialog-actions class="action">
   
       <button mat-raised-button type="button" [mat-dialog-close]="false">Annuler</button>
-      <button mat-raised-button color="primary" type="submit">{{data ? 'Update': 'Enregistrer'}}</button>
+      <button mat-raised-button color="primary" type="submit">{{data ? 'Modifier': 'Enregistrer'}}</button>
     </div>
   
   </form>

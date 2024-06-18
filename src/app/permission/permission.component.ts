@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { Permission } from '../Modéles/Permission';
 import { PermissionService } from '../Services/Permission.service';
 import { AddPermissionDialogComponent } from '../add-permission-dialog/add-permission-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 
 @Component({
@@ -22,7 +23,7 @@ declare var $: any;
 })
 export class PermissionComponent {
   displayedColumns: string[] = [
-    'id',
+    
     'name',
     'action'
   ];
@@ -41,7 +42,7 @@ export class PermissionComponent {
     private ClientService: ClientService,
     private dialog: MatDialog,
     private coreService: CoreService,
-    private toast : NgToastService,
+    private toastr: ToastrService,
     private route:Router
 
   ) {}
@@ -86,12 +87,12 @@ export class PermissionComponent {
     $('#addClientModal').modal('hide');
   }
   
-  deleteProspect() {
+  deletePermission() {
     this.permissionService
       .deletePermission(this.permissionToDelete.id)
       .subscribe(() => {
         console.log('deleted');
-        this.coreService.openSnackBar('Prospect supprimé', 'Fermer');
+        this.toastr.success('La permission a été supprimée avec succès', 'Succès');
         this.closeConfirm();
         this.loadPermission();
       });

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../Services/Auth.service';
 import { CoreService } from '../core/core.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class AuthentificationComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private userService: UserService,
-    private coreService: CoreService
+    private toastr : ToastrService,
   ) {
     this.signUpForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(4)]],
@@ -61,27 +62,31 @@ export class AuthentificationComponent implements OnInit {
       this.userService.SignUp(userData).subscribe(
         (response) => {
           console.log('Utilisateur enregistré avec succès :', response);
-          this.coreService.openSnackBar('Utilisateur enregistré avec succès');
+          this.toastr.success('Utilisateur enregistré avec succès', 'Succès', )
           // Réinitialiser le formulaire après l'enregistrement réussi
           this.signUpForm.reset();
-          this.isSignDivVisiable=false
+          this.isSignDivVisiable = false;
         },
         (error) => {
           console.log(error.message)
-          console.error(
-            "Erreur lors de l'enregistrement de l'utilisateur :",
-            error
-          );
-          this.coreService.openSnackBar(
-            "Erreur lors de l'enregistrement de l'utilisateur"
-          );
+          console.error("Erreur lors de l'enregistrement de l'utilisateur :", error);
         }
       );
+    } else {
+      this.toastr.error('Veuillez remplir tous les champs', 'Erreur');
     }
   }
+  
 
   SignIn() {
     const { un ,pass } = this.signInForm.value;
+
+     // Vérification si les champs sont vides
+  if (!un || !pass) {
+    this.toastr.error('Veuillez remplir tous les champs', 'Erreur', )
+     
+    return; // Sortir de la fonction si un champ est vide
+  }
     this.userService.SignIn(un,pass).subscribe(
       (response: any) => {
         console.log(response);
@@ -95,14 +100,12 @@ export class AuthentificationComponent implements OnInit {
 
         // console.log('Utilisateur connecté');
 
-        this.coreService.openSnackBar('Utilisateur connecté avec succès');
+        this.toastr.success('Connexion réussie', 'Bienvenue',)
         this.router.navigate(['dashboad/statistic']);
       },
       (error) => {
         console.error("Erreur lors de la connexion de l'utilisateur :", error);
-        this.coreService.openSnackBar(
-          "Vérifier le nom d'utilisateur ou le mot de passe"
-        );
+        this.toastr.error('Vérifier vos identifiants ', 'Erreur de connexion', )
       }
     );
   }
@@ -120,4 +123,6 @@ export class AuthentificationComponent implements OnInit {
       return decodedJwtData;
     }
   }
+
+  
 }

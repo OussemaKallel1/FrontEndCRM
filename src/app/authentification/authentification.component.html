@@ -2,57 +2,63 @@
 
     <div class="container" [ngClass]="isSignDivVisiable ? 'active' :'' " id="container">
       
-        <div class="form-container sign-up">
-            <form [formGroup]="signUpForm">
-              <h1><b>Créer compte</b></h1>
-              <br>
-              <span>Remplir les champs svp</span>
-              <input type="text" name="nom d'utilisateur" placeholder="Nom d'utilisateur" formControlName="username" autocomplete="off" >
-              
-              <div *ngIf="!signUpForm.pristine && signUpForm.controls['username'].errors?.['required']">
-              </div>
-              <input type="text" name="Nom et prénom" placeholder="Nom et prénom" formControlName="fullName" autocomplete="off" >
-              
-              <div *ngIf="!signUpForm.pristine && signUpForm.controls['fullName'].errors?.['required']">
-              </div>
-
-              <div class="text-danger" *ngIf="!signUpForm.pristine && signUpForm.controls['username'].errors?.['minlength']">
-                <span class="mb-0">Le nom d'utilisateur doit avoir au moins 4 caractères</span>
-              </div>
-              <div class="column" style="width: 100%;">
-              <mat-form-field>
-                <mat-select placeholder="Role" formControlName="role">
-                  <mat-option *ngFor="let role of roles" [value]="role.value">
-                    {{ role.viewValue }}
-                  </mat-option>
-                </mat-select>
-                <mat-error
+      <div class="form-container sign-up">
+        <form [formGroup]="signUpForm">
+          <h1><b>Créer compte</b></h1>
+          <br>
+          <span>Remplir les champs svp</span>
+      
+          <!-- Champ Nom d'utilisateur -->
+          <input type="text" name="nom d'utilisateur" placeholder="Nom d'utilisateur" formControlName="username" autocomplete="off">
+          <mat-error *ngIf="signUpForm.get('username')?.invalid && (signUpForm.get('username')?.dirty || signUpForm.get('username')?.touched)">
+            <span *ngIf="signUpForm.get('username')?.errors?.['required']">Le nom d'utilisateur est requis.</span>
+            <span *ngIf="signUpForm.get('username')?.errors?.['minlength']">Le nom d'utilisateur doit avoir au moins 4 caractères.</span>
+          </mat-error>
+      
+          <!-- Champ Nom et prénom -->
+          <input type="text" name="Nom et prénom" placeholder="Nom et prénom" formControlName="fullName" autocomplete="off">
+          <mat-error *ngIf="signUpForm.get('fullName')?.invalid && (signUpForm.get('fullName')?.dirty || signUpForm.get('fullName')?.touched)">
+            <span *ngIf="signUpForm.get('fullName')?.errors?.['required']">Le nom et prénom est requis.</span>
+          </mat-error>
+      
+          <!-- Champ Role (inchangé) -->
+          <div class="column" style="width: 100%;">
+            <mat-form-field>
+              <mat-select placeholder="Role" formControlName="role">
+                <mat-option *ngFor="let role of roles" [value]="role.value">
+                  {{ role.viewValue }}
+                </mat-option>
+              </mat-select>
+              <mat-error
                 *ngIf="signUpForm.get('statusProspect')?.invalid && (signUpForm.get('statusProspect')?.dirty || signUpForm.get('statusProspect')?.touched)">
                 <span *ngIf="signUpForm.get('statusProspect')?.errors?.['required']">Role est requis.</span>
               </mat-error>
-              </mat-form-field>
-            </div>
-              <input type="text" name="email" placeholder="Email" formControlName="email" autocomplete="off">
-              <mat-error
-          *ngIf="signUpForm.get('email')?.invalid && (signUpForm.get('email')?.dirty || signUpForm.get('email')?.touched)">
-          <span *ngIf="signUpForm.get('email')?.errors?.['required']">L'email est requis.</span>
-          <span *ngIf="signUpForm.get('email')?.errors?.['email']">L'email n'est pas valide.</span>
-        </mat-error>
-
-              <div class="password-container">
-                <input type="{{ showPassword ? 'text' : 'password' }}" name="password" id="password" placeholder="Mot de passe"  formControlName="password">
-                <span class="toggle-password" (click)="basculerVisibiliteMotDePasse()">
-                    <i class="fa" [ngClass]="{'fa-eye': isPasswordVisible(), 'fa-eye-slash': !isPasswordVisible()}" aria-hidden="true"></i>
-                </span> 
-              </div>
-              
-              <div class="text-danger" *ngIf="!signUpForm.pristine && signUpForm.controls['password'].errors?.['minlength']">
-                <span class="mb-0">Le mot de passe doit avoir au moins 8 caractères</span>
-              </div>
-              <button type="submit" (click)="SignUp()">S'inscrire</button>
-            </form>
+            </mat-form-field>
           </div>
-         
+      
+          <!-- Champ Email -->
+          <input type="text" name="email" placeholder="Email" formControlName="email" autocomplete="off">
+          <mat-error *ngIf="signUpForm.get('email')?.invalid && (signUpForm.get('email')?.dirty || signUpForm.get('email')?.touched)">
+            <span *ngIf="signUpForm.get('email')?.errors?.['required']">L'email est requis.</span>
+            <span *ngIf="signUpForm.get('email')?.errors?.['email']">L'email n'est pas valide.</span>
+          </mat-error>
+      
+          <!-- Champ Mot de passe -->
+          <div class="password-container">
+            <input type="{{ showPassword ? 'text' : 'password' }}" name="password" id="password" placeholder="Mot de passe" formControlName="password">
+            <span class="toggle-password" (click)="basculerVisibiliteMotDePasse()">
+              <i class="fa" [ngClass]="{'fa-eye': isPasswordVisible(), 'fa-eye-slash': !isPasswordVisible()}" aria-hidden="true"></i>
+            </span>
+          </div>
+          <mat-error *ngIf="signUpForm.get('password')?.invalid && (signUpForm.get('password')?.dirty || signUpForm.get('password')?.touched)">
+            <span *ngIf="signUpForm.get('password')?.errors?.['required']">Le mot de passe est requis.</span>
+            <span *ngIf="signUpForm.get('password')?.errors?.['minlength']">Le mot de passe doit avoir au moins 8 caractères.</span>
+          </mat-error>
+      
+          <button type="submit" (click)="SignUp()">S'inscrire</button>
+        </form>
+      </div>
+      
           
         <div class="form-container sign-in" >
             <form [formGroup]="signInForm" (submit)="SignIn()">
@@ -66,7 +72,6 @@
                     <i class="fa" [ngClass]="{'fa-eye': isPasswordVisible(), 'fa-eye-slash': !isPasswordVisible()}" aria-hidden="true"></i>
                   </span>
                 </div>
-                <a href="#">→ Mot de passe oublié? ←</a>
                 <button type="submit">Se connecter</button>
               </form>              
         </div>

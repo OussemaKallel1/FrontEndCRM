@@ -1,14 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NgToastService } from 'ng-angular-popup';
 import { Tasks } from 'src/app/Modéles/Tasks';
 import { TaskService } from 'src/app/Services/Task.service';
-import { CoreService } from 'src/app/core/core.service';
 import { AddTaskDialogComponent } from '../add-task-dialog/add-task-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Role } from 'src/app/Modéles/Role';
+import { ToastrService } from 'ngx-toastr';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -37,7 +36,7 @@ export class GestionTaskComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   displayedColumns: string[] = [
-    'id',
+    
     'name',
     'dateDebut',
     'dateFin',
@@ -48,23 +47,23 @@ export class GestionTaskComponent {
   ];
   statusTask = [
     {value: 'EN_ATTENTE', viewValue: 'En attente'},
-    {value: 'FAIT', viewValue: 'Fait'},
+    {value: 'FAIT', viewValue: 'Terminé'},
   ];
   typeActivity = [
     {value: 'REUNION', viewValue: 'Réunion'},
     {value: 'APPEL_TELEPHONIQUE', viewValue: 'Appel Téléphonique'},
     {value: 'RESUME_APPEL', viewValue: 'Résumé de l’appel'},
-    {value: 'DESCRIPTION', viewValue: 'Description'}
+    {value: 'DESCRIPTION', viewValue: 'Autre'}
   ];
 
   constructor(
     private tasksService: TaskService,
     private dialog: MatDialog,
-    private coreService: CoreService,
-    private toast : NgToastService
+    private toastr: ToastrService,
   ) {}
+
   ngOnInit(): void {
-    this.loadClients();
+    this.loadTasks();
   }
   roleAndPermissionExists(permissionName: string): boolean {
     console.log(localStorage.getItem("role"))
@@ -79,7 +78,7 @@ export class GestionTaskComponent {
     }
     return false;
   }
-  loadClients() {
+  loadTasks() {
     this.tasksService.getAllTasks().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
@@ -105,12 +104,12 @@ export class GestionTaskComponent {
   closeConfirm() {
     $('#deleteModal').modal('hide');
   }
-  deleteClient() {
+  deleteTasks() {
     this.tasksService.deleteTask(this.taskToDelete.id).subscribe(() => {
       console.log('deleted');
-      this.toast.success({detail:"Succés",summary:'Task supprimé',duration: 5000});
+      this.toastr.success('L\'activité a été supprimée avec succès', 'Succès');
       this.closeConfirm();
-      this.loadClients();
+      this.loadTasks();
     });
   }
   getViewValueStatus(value: string): string {
@@ -126,20 +125,20 @@ export class GestionTaskComponent {
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
-          this.loadClients();
+          this.loadTasks();
         }
       },
     });
   }
 
-  openEditCltForm(data: Tasks) {
+  openEditTasksForm(data: Tasks) {
     const dialogRef = this.dialog.open(AddTaskDialogComponent, {
       data,
     });
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
-          this.loadClients();
+          this.loadTasks();
         }
       },
     });

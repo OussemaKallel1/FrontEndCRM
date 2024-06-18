@@ -6,8 +6,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { ClientService } from '../Services/client.service';
-import { CoreService } from '../core/core.service';
-import { NgToastService } from 'ng-angular-popup';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -22,7 +21,7 @@ export class AddClientDialogComponent implements OnInit {
   priorite = [
     {value: 'Faible', viewValue: 'Faible'},
     {value: 'Moyenne', viewValue: 'Moyenne'},
-    {value: 'élevée', viewValue: 'Elevée'}
+    {value: 'Élevée', viewValue: 'Élevée'}
   ];
   typeContact = [
     {value: 'Fournisseur', viewValue: 'Fournisseur'},
@@ -34,12 +33,11 @@ export class AddClientDialogComponent implements OnInit {
     private clientService: ClientService,
     private dialogRef: MatDialogRef<AddClientDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private coreService: CoreService,
-    private toast: NgToastService
+    private toastr: ToastrService,
   ) {
     this.ClientForm = this.fb.group({
       nom: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(3)]], // Seuls les caractères alphabétiques sont autorisés
-      prenom: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]], // Seuls les caractères alphabétiques sont autorisés
+      prenom: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(3)]], // Seuls les caractères alphabétiques sont autorisés
       telephone: ['', [Validators.required, Validators.pattern('[0-9]{8,10}')]], // Format numérique de 8 à 10 chiffres
       adresse: ['', [Validators.required, Validators.minLength(5)]], // Exiger une longueur
       email: ['', [Validators.required, Validators.email]],
@@ -54,9 +52,7 @@ export class AddClientDialogComponent implements OnInit {
 
     // Surveillance des changements de valeur dans le champ de nom
     this.applyFirstLetterUppercaseValidation('nom');
-    // Surveillance des changements de valeur dans le champ de prénom
     this.applyFirstLetterUppercaseValidation('prenom');
-    // Surveillance des changements de valeur dans le champ d'adresse
     this.applyFirstLetterUppercaseValidation('adresse');
   }
 
@@ -76,38 +72,39 @@ export class AddClientDialogComponent implements OnInit {
   onFormSubmit() {
     if (this.ClientForm.valid) {
       if (this.data) {
-        this.clientService
-          .updateClient(this.data.id, this.ClientForm.value)
-          .subscribe({
-            next: (val: any) => {
-              this.toast.info({
-                detail: 'Information',
-                summary: 'Client modifié',
-                sticky: false,
-                duration : 5000,
-              });
-              this.dialogRef.close(true);
-            },
-
-            error: (err: any) => {
+        this.clientService.updateClient(this.data.id, this.ClientForm.value).subscribe({
+          next: (val: any) => {
+            this.toastr.success('Le contact a été modifié avec succès', 'Succès');
+            this.dialogRef.close(true);
+          },
+          error: (err: any) => {
+            if (err.status === 409) { // Si l'email existe déjà
+              this.toastr.error('Cet email existe déjà. Veuillez en utiliser un autre.', 'Erreur');
+            } else {
               console.error(err);
-            },
-          });
+              this.toastr.error('Une erreur est survenue. Veuillez réessayer.', 'Erreur');
+            }
+          }
+        });
       } else {
         this.clientService.ajouterClient(this.ClientForm.value).subscribe({
           next: (val: any) => {
-            this.toast.success({ detail: 'Succés', summary: 'Client ajouté', duration:5000 });
+            this.toastr.success('Le contact a été ajouté avec succès', 'Succès');
             this.dialogRef.close(true);
           },
+          error: (err: any) => {
+            if (err.status === 409) { // Si l'email existe déjà
+              this.toastr.error('Cet email existe déjà. Veuillez en utiliser un autre.', 'Erreur');
+            } else {
+              console.error(err);
+              this.toastr.error('Contact déjà existe', 'Erreur : email existe');
+            }
+          }
         });
       }
     } else {
-      // Affichage d'un message d'erreur si le formulaire n'est pas valide
-      this.toast.error({
-        detail: 'Erreur',
-        summary: "Le formulaire n'est pas valide.",
-        duration: 5000
-      });
+      this.toastr.error('Veuillez remplir tous les champs correctement', 'Erreur');
     }
   }
+  
 }

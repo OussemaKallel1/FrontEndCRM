@@ -12,6 +12,7 @@ import { CoreService } from '../core/core.service';
 import { NgToastService } from 'ng-angular-popup';
 import { RoleService } from '../Services/Role.service';
 import { Role } from '../Modéles/Role';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -53,7 +54,10 @@ export class GestionClientsComponent implements OnInit {
     private clientService: ClientService,
     private dialog: MatDialog,
     private coreService: CoreService,
-    private toast : NgToastService,private roleService : RoleService
+    private toast : NgToastService,
+    private roleService : RoleService,
+    private toastr: ToastrService
+    
   ) {}
 
   ngOnInit(): void {
@@ -114,7 +118,7 @@ export class GestionClientsComponent implements OnInit {
   deleteClient() {
     this.clientService.deleteClient(this.clientToDelete.id).subscribe(() => {
       console.log('deleted');
-      this.toast.success({detail:"Succés",summary:'Client supprimé',duration: 5000});
+      this.toastr.success('Le contact a été supprimé avec succès', 'Succès');
       this.closeConfirm();
       this.loadClients();
     });

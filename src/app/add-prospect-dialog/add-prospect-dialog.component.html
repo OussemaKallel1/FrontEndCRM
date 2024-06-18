@@ -7,27 +7,52 @@
        <div class="column">
           <mat-form-field appearance="outline">
             <mat-label>Nom</mat-label>
-            <input matInput type="text" placeholder="Ex. Alex" formControlName="nom">
+            <input matInput type="text" placeholder="Ex. Jlassi" formControlName="nom">
+            <mat-error
+          *ngIf="ProspectForm.get('nom')?.invalid && (ProspectForm.get('nom')?.dirty || ProspectForm.get('nom')?.touched)">
+          <span *ngIf="ProspectForm.get('nom')?.errors?.['required']">Le nom est requis.</span>
+          <span *ngIf="ProspectForm.get('nom')?.errors?.['pattern']">Le nom ne doit contenir que des lettres.</span>
+          <span *ngIf="ProspectForm.get('nom')?.hasError('minlength')">Le nom doit contenir au moins 3 caractères.</span>
+        </mat-error>
           </mat-form-field>
-  
+
           <mat-form-field appearance="outline" class="nom-field">
             <mat-label>Prénom</mat-label>
-            <input matInput type="text" placeholder="Ex. Smith" formControlName="prenom">
+            <input matInput type="text" placeholder="Ex. Hichem" formControlName="prenom">
+            <mat-error
+          *ngIf="ProspectForm.get('prenom')?.invalid && (ProspectForm.get('prenom')?.dirty || ProspectForm.get('prenom')?.touched)">
+          <span *ngIf="ProspectForm.get('prenom')?.errors?.['required']">Le prénom est requis.</span>
+          <span *ngIf="ProspectForm.get('prenom')?.errors?.['pattern']">Le prénom ne doit contenir que des lettres.</span>
+          <span *ngIf="ProspectForm.get('prenom')?.hasError('minlength')">Le prénom doit contenir au moins 3 caractères.</span>
+        </mat-error>
           </mat-form-field>
         </div>
-    
+        <br>
    
         <div class="column">
           <mat-form-field appearance="outline">
           <mat-label>Téléphone</mat-label>
           <input matInput type="number" placeholder="Ex. 99 854 111" formControlName="telephone">
+          <mat-error
+          *ngIf="ProspectForm.get('telephone')?.invalid && (ProspectForm.get('telephone')?.dirty || ProspectForm.get('telephone')?.touched)">
+          <span *ngIf="ProspectForm.get('telephone')?.errors?.['required']">Le numéro de téléphone est requis.</span>
+          <span *ngIf="ProspectForm.get('telephone')?.errors?.['pattern']">Le numéro de téléphone doit être composé de 8 à
+            10 chiffres.</span>
+        </mat-error>
           </mat-form-field>
   
           <mat-form-field appearance="outline" class="nom-field">
             <mat-label>Adresse</mat-label>
-            <input matInput type="text" placeholder="Ex. Smith" formControlName="adresse">
-          </mat-form-field>
+            <input matInput type="text" placeholder="Ex. 50 Rue de Paris, Sfax" formControlName="adresse">
+            <mat-error
+          *ngIf="ProspectForm.get('adresse')?.invalid && (ProspectForm.get('adresse')?.dirty || ProspectForm.get('adresse')?.touched)">
+          <span *ngIf="ProspectForm.get('adresse')?.errors?.['required']">L'adresse est requise.</span>
+          <span *ngIf="ProspectForm.get('adresse')?.errors?.['minlength']">L'adresse doit contenir au moins 5
+            caractères.</span>
+        </mat-error>
+          </mat-form-field>   
         </div>
+        <br>
         <div class="column">
           <mat-form-field appearance="outline" class="nom-field">
             <mat-label>E-mail</mat-label>
@@ -60,13 +85,13 @@
               </mat-error>
               </mat-form-field>
           </div>
-    
+    <br>
     </div>
       
     <div mat-dialog-actions class="action">
       
       <button mat-raised-button type="button" [mat-dialog-close]="false">Annuler</button>
-      <button mat-raised-button color="primary" type="submit">{{data ? 'Update': 'Save'}}</button>
+      <button mat-raised-button color="primary" type="submit">{{data ? 'Modifier': 'Enregistrer'}}</button>
     </div>
   
   </form>

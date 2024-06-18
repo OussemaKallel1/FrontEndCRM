@@ -1,18 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProspectModéle } from '../Modéles/Prospect-Modéle';
-import { ClientModéle } from '../Modéles/client-modéle';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ProspectService } from '../Services/Prospect.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CoreService } from '../core/core.service';
 import { AddProspectDialogComponent } from '../add-prospect-dialog/add-prospect-dialog.component';
 import { ClientService } from '../Services/client.service';
-import { NgToastService } from 'ng-angular-popup';
 import { Router } from '@angular/router';
 import { RoleService } from '../Services/Role.service';
 import { Role } from '../Modéles/Role';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -23,10 +21,11 @@ declare var $: any;
 })
 export class ProspectsComponent implements OnInit {
   displayedColumns: string[] = [
-    'id',
+    
     'nom',
     'prenom',
     'note',
+    'email',
     'telephone',
     'adresse',
     'statusProspect',
@@ -58,13 +57,16 @@ export class ProspectsComponent implements OnInit {
 
   AddClient!: ProspectModéle;
 
+  
+
+
   constructor(
     private prospectService: ProspectService,
     private ClientService: ClientService,
     private dialog: MatDialog,
-    private coreService: CoreService,
-    private toast : NgToastService,
-    private route:Router,private roleService : RoleService
+    private route:Router,
+    private roleService : RoleService,
+    private toastr: ToastrService
 
   ) {}
 
@@ -112,7 +114,7 @@ export class ProspectsComponent implements OnInit {
   closeConfirmAdd() {
     $('#addClientModal').modal('hide');
   }
-  addClien(){
+  addProspect(){
     const client : any = {
       nom : this.AddClient.nom,
       prenom : this.AddClient.prenom,
@@ -123,7 +125,6 @@ export class ProspectsComponent implements OnInit {
       priorite : "Faible"
     }
     this.ClientService.ajouterClient(client).subscribe(() => {
-        this.toast.success({ detail: 'Succés', summary: 'Client ajouté', duration:5000 });
         this.closeConfirmAdd();
         this.route.navigateByUrl("/dashboad/contact");
     });
@@ -133,7 +134,7 @@ export class ProspectsComponent implements OnInit {
       .deleteProspect(this.propectToDelete.id)
       .subscribe(() => {
         console.log('deleted');
-        this.coreService.openSnackBar('Prospect supprimé', 'Fermer');
+        this.toastr.success('Le contact a été supprimé avec succès', 'Succès');
         this.closeConfirm();
         this.loadProspect();
       });

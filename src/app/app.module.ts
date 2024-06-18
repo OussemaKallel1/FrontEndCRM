@@ -45,6 +45,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
 import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 import { MatTabsModule } from '@angular/material/tabs';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -94,7 +95,14 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatSelectModule,
     NgToastModule,
     GoogleChartsModule,RecurrenceEditorModule,ScheduleModule,FullCalendarModule,
-    MatTabsModule
+    MatTabsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      progressBar: true
+
+
+    }),
+
 
 
   ],

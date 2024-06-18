@@ -19,23 +19,19 @@
   
        
       </div>
+      <br>
       <div class="column">
         <mat-form-field appearance="outline">
           <mat-label>Permissions</mat-label>
           <mat-select formControlName="roles" multiple>
             <mat-option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</mat-option>
           </mat-select>
-          <mat-error *ngIf="PermissionForm.get('permissions')?.invalid && (PermissionForm.get('permissions')?.dirty || PermissionForm.get('permissions')?.touched)">
-            <span *ngIf="PermissionForm.get('permissions')?.errors?.['required']">Au moins une permission est requise.</span>
+          <mat-error *ngIf="PermissionForm.get('roles')?.invalid && (PermissionForm.get('roles')?.dirty || PermissionForm.get('roles')?.touched)">
+            <span *ngIf="PermissionForm.get('roles')?.errors?.['required']">La permission est requis.</span>
           </mat-error>
         </mat-form-field>
       </div>
-      <br>
-  
-    
-        <br> <br>
-  
-    
+      
       </div>
   
       <br>
@@ -44,7 +40,7 @@
     <div mat-dialog-actions class="action">
   
       <button mat-raised-button type="button" [mat-dialog-close]="false">Annuler</button>
-      <button mat-raised-button color="primary" type="submit">{{data ? 'Update': 'Enregistrer'}}</button>
+      <button mat-raised-button color="primary" type="submit">{{data ? 'Modifier': 'Enregistrer'}}</button>
     </div>
   
   </form>
