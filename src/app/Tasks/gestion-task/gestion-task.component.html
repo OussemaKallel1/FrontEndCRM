@@ -63,9 +63,16 @@
 
        <!-- Description Column -->
        <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> <h4> Description </h4></th>
-        <td mat-cell *matCellDef="let row"> <h3 class="mt-2">{{row.description}}</h3></td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> 
+          <h4>Description</h4>
+        </th>
+        <td mat-cell *matCellDef="let row"> 
+          <mat-form-field appearance="fill">
+            <textarea matInput [(ngModel)]="row.description" style="font-size: 12px;"></textarea>
+          </mat-form-field>
+        </td>
       </ng-container>
+      
 
       <!-- action Column -->
       <ng-container matColumnDef="action">

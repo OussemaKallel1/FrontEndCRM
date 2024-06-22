@@ -21,6 +21,7 @@ export class CalendrierComponent {
     events: [
      
     ],
+    locale:'fr',
     selectable: true,
     select: this.handleDateSelect.bind(this),
     plugins: [dayGridPlugin, interactionPlugin] // Activez les plugins nécessaires

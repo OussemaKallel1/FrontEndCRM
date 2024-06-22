@@ -23,12 +23,13 @@ declare var $: any;
 })
 export class GestionClientsComponent implements OnInit {
   displayedColumns: string[] = [
-    'id',
+    
     'nom',
     'prenom',
     'telephone',
     'adresse',
     'email',
+    'note',
     'typeContact',
     'priorite',
     'action',
@@ -53,8 +54,6 @@ export class GestionClientsComponent implements OnInit {
   constructor(
     private clientService: ClientService,
     private dialog: MatDialog,
-    private coreService: CoreService,
-    private toast : NgToastService,
     private roleService : RoleService,
     private toastr: ToastrService
     

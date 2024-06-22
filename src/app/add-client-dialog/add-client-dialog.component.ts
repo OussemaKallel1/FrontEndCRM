@@ -38,9 +38,11 @@ export class AddClientDialogComponent implements OnInit {
     this.ClientForm = this.fb.group({
       nom: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(3)]], // Seuls les caractères alphabétiques sont autorisés
       prenom: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*'), Validators.minLength(3)]], // Seuls les caractères alphabétiques sont autorisés
+      
       telephone: ['', [Validators.required, Validators.pattern('[0-9]{8,10}')]], // Format numérique de 8 à 10 chiffres
       adresse: ['', [Validators.required, Validators.minLength(5)]], // Exiger une longueur
       email: ['', [Validators.required, Validators.email]],
+      note: ['', ],
       typeContact : ['', [Validators.required]],
       priorite : ['', [Validators.required]]
     });

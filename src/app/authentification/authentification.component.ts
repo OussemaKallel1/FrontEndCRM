@@ -17,9 +17,9 @@ export class AuthentificationComponent implements OnInit {
   isSignDivVisiable: boolean = true;
   showPassword: boolean = false;
   roles = [
-    {value: 'ADMIN', viewValue: 'Admin'},
-    {value: 'Commercial', viewValue: 'Commercial'},
-    {value: 'Marketing', viewValue: 'Marketing'},
+    {value: 'ADMIN', viewValue: 'Administrateur'},
+    {value: 'Responsable commercial', viewValue: 'Responsable commercial'},
+    {value: 'Responsable marketing', viewValue: 'Responsable marketing'},
   ];
   constructor(
     private fb: FormBuilder,

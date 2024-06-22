@@ -1,90 +1,109 @@
-  <div class=" content">
-    <div class=" mt-2 row">
-      <div class=" col-9">
-        <div class=" card card-chart">
-          <div class=" card-header">
-            <div class=" row">
-              <div class=" col-sm-6 text-left">
-                <h2 class=" card-title">Statistiques</h2>
-              </div>
-            </div>
-          </div>
-          <div class=" card-body row">
-            <div class="   col-lg-6">
-              
-                  <div class="chart-title">{{ chart.title }}</div>
-                  <div >
-                  <google-chart
-                    [type]="chart.type"
-                    [data]="chart.data"
-                    [columns]="chart.columnNames"
-                    [options]="chart.options"
-                  >
-                  </google-chart>
-                </div>
-              </div>
-              <div class="  mr-50 col-lg-6 ">
-                
-                  <div class="chart-title">{{ chartTask.title }}</div>
-                  <google-chart
-                    [type]="chartTask.type"
-                    [data]="chartTask.data"
-                    [columns]="chartTask.columnNames"
-                    [options]="chartTask.options"
-                  >
-                  </google-chart>
-               
-              </div>
-          </div>
-          <div class=" row p-5">
-            <div class=" col-lg-4">
-              <div class=" card card-chart">
-                <div class=" card-header">
-                  <h2 class=" card-category font-semibold">Total Contacts</h2>
-                  <h3 class=" card-title">
-                  </h3>
-                </div>
-                <div class=" card-body">
-                  <div class=" chart-area"><button id="chartLineGreen" mat-icon-button color="primary" class="p-3 mb-5" style="font-size: 60px; margin-left: 70px;"> <i class="fa-solid fa-user "></i><span class="p-3 ml-50 font-bold background-color text-dark">{{this.numberOfClients}} </span></button></div>
-                </div>
-              </div>
-            </div>
-            <div class=" col-lg-4">
-              
-            </div>
-            <div class=" col-lg-4">
-              <div class=" card card-chart">
-                <div class=" card-header">
-                  <h2 class=" card-category font-semibold">Total Prospects</h2>
-                  <h3 class=" card-title">
-                     
-                  </h3>
-                </div>
-                <div class=" card-body">
-                  <div class=" chart-area"><button id="chartLineGreen" mat-icon-button color="primary" class="p-3 mb-5" style="font-size: 70px; margin-left: 60px;"> <i class="fa-solid fa-user "></i><span class="p-3 ml-50 font-bold background-color text-dark">{{this.numberOfProspects}} </span></button></div>
-      
-               
-              </div>
-              </div>
+<div class=" content">
+  <div class=" mt-2 row">
+    <div class=" col-9">
+      <div class=" card card-chart">
+        <div class=" card-header">
+          <div class=" row">
+            <div class=" col-sm-6 text-left">
+              <h2 class=" card-title">Statistiques</h2>
             </div>
           </div>
         </div>
-      </div>
-      <div class=" col-3 z-10">
-        <div class=" card">
-          <div class=" card-header">
-            <h2 class=" card-title">Profile</h2>
+        <div class=" card-body row">
+          <div class="   col-lg-6">
+
+            <div class="chart-title">{{ chart.title }}</div>
+            <div>
+              <google-chart [type]="chart.type" [data]="chart.data" [columns]="chart.columnNames"
+                [options]="chart.options">
+              </google-chart>
+            </div>
           </div>
-          <div class=" card-body">
-            <div class="container mt-4 mb-4 p-3 d-flex justify-content-center"> <div class="card p-4"> <div class=" image d-flex flex-column justify-content-center align-items-center"> <button > <img src="../../assets/profile-icon-design-free-vector.jpg" height="100" width="100" /></button> <span class="name mt-4" style="text-align: center;">{{user.fullName}}</span> <span class="idd mt-4">{{user.email}}</span> <div class="d-flex flex-row justify-content-center align-items-center gap-2"> <span class="idd1 mt-4">{{user.username}}</span>  </div> <div class="d-flex flex-row justify-content-center align-items-center mt-3">  </div>  <div class="text mt-3"> <span><br><br> Admin </span> </div> <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center">     </div>  </div> </div>
+          <div class="  mr-50 col-lg-6 ">
+
+            <div class="chart-title">{{ chartTask.title }}</div>
+            <google-chart [type]="chartTask.type" [data]="chartTask.data" [columns]="chartTask.columnNames"
+              [options]="chartTask.options">
+            </google-chart>
+
+          </div>
         </div>
+        <div class=" row p-5">
+          <div class=" col-lg-4">
+            <div class=" card card-chart">
+              <div class=" card-header">
+                <h2 class=" card-category font-semibold">Total Clients</h2>
+                <h3 class=" card-title">
+                </h3>
+              </div>
+              <div class=" card-body">
+                <div class=" chart-area"><button id="chartLineGreen" mat-icon-button color="primary" class="p-3 mb-5"
+                    style="font-size: 60px; margin-left: 70px;"> <i class="fa-solid fa-user "></i><span
+                      class="p-3 ml-50 font-bold background-color text-dark">{{this.numberOfClients}} </span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class=" col-lg-4">
+
+          </div>
+          <div class=" col-lg-4">
+            <div class=" card card-chart">
+              <div class=" card-header">
+                <h2 class=" card-category font-semibold">Total Prospects</h2>
+                <h3 class=" card-title">
+
+                </h3>
+              </div>
+              <div class=" card-body">
+                <div class=" chart-area"><button id="chartLineGreen" mat-icon-button color="primary" class="p-3 mb-5"
+                    style="font-size: 70px; margin-left: 60px;"> <i class="fa-solid fa-user "></i><span
+                      class="p-3 ml-50 font-bold background-color text-dark">{{this.numberOfProspects}} </span></button>
+                </div>
+
+
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  
-    <div class=" row mt-2">
-      <!-- <div class=" col-lg-6 col-md-12">
+    <div class="col-3 z-10">
+      <div class="card">
+        <div class="card-header" style="text-align: center;">
+          <h2 class="card-title">Profile</h2>
+        </div>
+        <div class="card-body">
+          <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+            <div class="card p-4 text-center">
+              <div class="image d-flex flex-column justify-content-center align-items-center">
+                <button class="btn btn-light mb-3">
+                  <img src="../../assets/profile-icon-design-free-vector.jpg" height="100" width="100" />
+                </button>
+                <div class="mt-2">
+                  <strong>Nom complet :</strong>
+                  <span class="ms-2">{{user.fullName}}</span>
+                </div>
+                <div class="mt-2">
+                  <strong>Email :</strong>
+                  <span class="ms-2">{{user.email}}</span>
+                </div>
+                <div class="mt-2">
+                  <strong>Nom d'utilisateur :</strong>
+                  <span class="ms-2">{{user.username}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+
+  <div class=" row mt-2">
+    <!-- <div class=" col-lg-6 col-md-12">
         <div class=" card card-tasks">
           <div class=" card-header">
             <h6 class=" title d-inline">Tasks(5)</h6>
@@ -293,36 +312,36 @@
           </div>
         </div>
       </div> -->
-      <h2 class=" card-category font-semibold">Les tâches d'aujourd'hui</h2>
+    <h2 class=" card-category font-semibold">Les tâches d'aujourd'hui</h2>
 
-      <div class="container mb-4">
-        <div class="row">
-          <div class="col-xs-12">
-            <table summary="This table shows how to create responsive tables using Datatables' extended functionality" class="table table-bordered table-hover dt-responsive">
-              <thead>
-                <tr>
-                  <th>Nom</th>
-                  <th>Description</th>
-                  <th>Date de début</th>
-                  <th>Date fin</th>
-                  <th>Type d'activité</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let task of tasksOfToday">
-                  <td>{{task.name}}</td>
-                  <td>{{task.description}}</td>
-                  <td>{{task.dateDebut}}</td>
-                  <td>{{task.dateFin}}</td>
-                  <td>{{ getViewValue(task.typeActivity) }}</td>
-                </tr>
-              </tbody>
-          
-            </table>
-          </div>
+    <div class="container mb-4">
+      <div class="row">
+        <div class="col-xs-12">
+          <table summary="This table shows how to create responsive tables using Datatables' extended functionality"
+            class="table table-bordered table-hover dt-responsive">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Date de début</th>
+                <th>Date fin</th>
+                <th>Type d'activité</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let task of tasksOfToday">
+                <td>{{task.name}}</td>
+                <td>{{task.description}}</td>
+                <td>{{task.dateDebut}}</td>
+                <td>{{task.dateFin}}</td>
+                <td>{{ getViewValue(task.typeActivity) }}</td>
+              </tr>
+            </tbody>
+
+          </table>
         </div>
       </div>
-      
     </div>
+
   </div>
-  
+</div>

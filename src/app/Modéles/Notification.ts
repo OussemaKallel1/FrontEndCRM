@@ -1,7 +1,7 @@
 export interface Notification {
 
     id: number;
-    NomTache: string;
+    nomTache: string;
     taskId: number;
     dateDebut: string;
     dateFin: string;

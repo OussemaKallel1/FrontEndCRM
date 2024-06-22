@@ -56,10 +56,6 @@ export class ProspectsComponent implements OnInit {
   propectToDelete!: ProspectModéle;
 
   AddClient!: ProspectModéle;
-
-  
-
-
   constructor(
     private prospectService: ProspectService,
     private ClientService: ClientService,
@@ -125,6 +121,9 @@ export class ProspectsComponent implements OnInit {
       priorite : "Faible"
     }
     this.ClientService.ajouterClient(client).subscribe(() => {
+      this.prospectService
+      .deleteProspect(this.AddClient.telephone)
+      this.toastr.success('Le prospect a été transformé avec succès', 'Succès');
         this.closeConfirmAdd();
         this.route.navigateByUrl("/dashboad/contact");
     });

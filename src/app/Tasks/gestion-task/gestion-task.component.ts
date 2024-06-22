@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Role } from 'src/app/Modéles/Role';
 import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from 'src/app/Services/Notification.service';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -60,6 +61,7 @@ export class GestionTaskComponent {
     private tasksService: TaskService,
     private dialog: MatDialog,
     private toastr: ToastrService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
