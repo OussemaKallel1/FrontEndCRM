@@ -110,24 +110,7 @@ export class ProspectsComponent implements OnInit {
   closeConfirmAdd() {
     $('#addClientModal').modal('hide');
   }
-  addProspect(){
-    const client : any = {
-      nom : this.AddClient.nom,
-      prenom : this.AddClient.prenom,
-      telephone : this.AddClient.telephone,
-      adresse : this.AddClient.adresse,
-      email : this.AddClient.email,
-      typeContact : "Client",
-      priorite : "Faible"
-    }
-    this.ClientService.ajouterClient(client).subscribe(() => {
-      this.prospectService
-      .deleteProspect(this.AddClient.telephone)
-      this.toastr.success('Le prospect a été transformé avec succès', 'Succès');
-        this.closeConfirmAdd();
-        this.route.navigateByUrl("/dashboad/contact");
-    });
-  }
+  
   deleteProspect() {
     this.prospectService
       .deleteProspect(this.propectToDelete.id)
@@ -181,6 +164,26 @@ export class ProspectsComponent implements OnInit {
           this.loadProspect();
         }
       },
+    });
+  }
+
+  addClien(){
+    const client : any = {
+      nom : this.AddClient.nom,
+      prenom : this.AddClient.prenom,
+      telephone : this.AddClient.telephone,
+      adresse : this.AddClient.adresse,
+      email : this.AddClient.email,
+      typeContact : "Client",
+      priorite : "Faible"
+    }
+    
+    this.ClientService.ajouterClient(client).subscribe(() => {
+      this.prospectService.deleteProspect(this.AddClient.id).subscribe(()=>{
+        this.toastr.success('Prospect ajouter au contact', 'Succès');
+        this.closeConfirmAdd();
+        this.route.navigateByUrl("/dashboad/contact");
+      })
     });
   }
 }
